@@ -1,0 +1,64 @@
+import java.util.ArrayList;
+import java.util.List;
+
+// Room class implementing Comparable as specified[cite: 4]
+class Room implements Comparable<Room> {
+    private int roomID;
+    private int occupants;
+    private String hallName;
+
+    // Constructor
+    public Room(int roomID, int occupants, String hallName) {
+        this.roomID = roomID;
+        this.occupants = occupants;
+        this.hallName = hallName;
+    }
+
+    // Accessor methods
+    public int getRoomID() {
+        return roomID;
+    }
+
+    public int getOccupants() {
+        return occupants;
+    }
+
+    public String getHallName() {
+        return hallName;
+    }
+
+    @Override
+    public int compareTo(Room other) {
+        return Integer.compare(this.roomID, other.roomID);
+    }
+}
+
+// Visitor class matching the exact naming required[cite: 4]
+class RoomAccomodationVisitor {
+    public void visit(Room room) {
+        if (room.getOccupants() > 4) {
+            System.out.println(room.getRoomID() + " in " + room.getHallName() + " has squatters");
+        }
+    }
+}
+
+// Test class with main method to run and test the visitor[cite: 4]
+public class TestRoomAccomodationVisitor {
+    public static void main(String[] args) {
+        // Create a container (ArrayList) and insert Room objects
+        List<Room> roomContainer = new ArrayList<>();
+        roomContainer.add(new Room(101, 2, "Complex Hall"));
+        roomContainer.add(new Room(102, 6, "Complex Hall")); // Triggers condition (> 4)
+        roomContainer.add(new Room(201, 5, "Tetfund Hall")); // Triggers condition (> 4)
+        roomContainer.add(new Room(202, 3, "Tetfund Hall"));
+
+        // Instantiate the visitor
+        RoomAccomodationVisitor visitor = new RoomAccomodationVisitor();
+
+        System.out.println("--- Checking Rooms for Squatters ---");
+        // Apply the visitor on elements of the container
+        for (Room room : roomContainer) {
+            visitor.visit(room);
+        }
+    }
+}
